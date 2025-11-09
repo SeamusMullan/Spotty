@@ -6,15 +6,15 @@ A terminal application for downloading songs from Exportify.
 
 ## Features
 
-**Clean TUI** - Built with Rich for a pretty damn cool terminal experience
-**Tables n' stuff** - Displays songs in formatted tables
-**Statistics** - See how cooked you are (show who you listen to the most)
+- **Clean TUI**: Built with Rich for a pretty damn cool terminal experience
+- **Tables n' stuff**: Displays songs in formatted tables
+- **Statistics**: See how cooked you are (show who you listen to the most)
 
 ## Coming Soon (hopefully)
 
-**Music Downloading** - Download your songs for listening offline
-**Desktop App** - No promises, but wouldn't it be awesome, wouldn't it be so cool
-**FastAPI Integration** - So you cracked programmers can implement this in a site or app
+- **Music Downloading**: Download your songs for listening offline
+- **Desktop App**: No promises, but wouldn't it be awesome, wouldn't it be so cool
+- **FastAPI Integration**: So you cracked programmers can implement this in a site or app
 
 ## Installation
 
