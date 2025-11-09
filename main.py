@@ -77,6 +77,59 @@ def list(
         raise typer.Exit(1)
 
 
+@app.command()
+def info(csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file")):
+    """
+    Show detailed information about the CSV file.
+    """
+    if not csv_file.exists():
+        console.print(f"[bold red]Error:[/bold red] File '{csv_file}' not found!")
+        raise typer.Exit(1)
+    
+    try:
+        df = pd.read_csv(csv_file)
+        
+        # Calculate statistics
+        total_songs = len(df)
+        total_duration_ms = df['Duration (ms)'].sum()
+        total_hours = total_duration_ms / (1000 * 60 * 60)
+        
+        # Get unique values
+        unique_artists = df['Artist Name(s)'].nunique()
+        unique_albums = df['Album Name'].nunique()
+        
+        # Get top artists
+        top_artists = df['Artist Name(s)'].value_counts().head(5)
+        
+        # Display info
+        info_text = (
+            f"[bold]File:[/bold] {csv_file.name}\n"
+            f"[bold]Total Songs:[/bold] {total_songs}\n"
+            f"[bold]Total Duration:[/bold] {total_hours:.1f} hours\n"
+            f"[bold]Unique Artists:[/bold] {unique_artists}\n"
+            f"[bold]Unique Albums:[/bold] {unique_albums}\n"
+        )
+        
+        panel = Panel(info_text, title=" File Information", border_style="green")
+        console.print(panel)
+        console.print()
+        
+        # Top artists table
+        artists_table = Table(title=" Top 5 Artists", show_lines=False)
+        artists_table.add_column("Rank", style="cyan", width=6)
+        artists_table.add_column("Artist", style="magenta")
+        artists_table.add_column("Songs", style="green", justify="right")
+        
+        for idx, (artist, count) in enumerate(top_artists.items(), 1):
+            artists_table.add_row(str(idx), str(artist)[:50], str(count))
+        
+        console.print(artists_table)
+        console.print()
+        
+    except Exception as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        raise typer.Exit(1)
+
 
 @app.command()
 def download(
@@ -127,7 +180,7 @@ def version():
         "[bold cyan]Spotty[/bold cyan] [dim]v0.1.0[/dim]\n"
         "A terminal app for downloading songs from Exportify CSV files.\n"
         "\n"
-        "[dim]Made with ❤️  and Python[/dim]"
+        "[dim]Made with  and Python[/dim]"
     )
     panel = Panel(version_text, border_style="cyan")
     console.print(panel)
