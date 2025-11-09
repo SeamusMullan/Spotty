@@ -43,7 +43,7 @@ def list(
         table.add_column("#", style="dim", width=4)
         table.add_column("Track", style="cyan", no_wrap=True)
         table.add_column("Artist", style="magenta")
-        table.add_column("Album", style="grneen")
+        table.add_column("Album", style="green")
         table.add_column("Duration", style="yellow", justify="right")
         table.add_column("Added", style="blue")
         
