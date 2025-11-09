@@ -30,9 +30,9 @@ dependencies = [
 dev = [
     "pylint>=4.0.2",
     "pytest>=7.0.0",
-    "black>=23.0.0",
+    "black>=25.9.0",
     "ruff>=0.1.0",
-    "pre-commit>=3.0.0",
+    "pre-commit>=4.4.0",
 ]
 
 [project.scripts]
