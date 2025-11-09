@@ -4,7 +4,7 @@ A terminal application for downloading songs from Exportify.
 
 (In early development, don't expect everything to work)
 
-## How to Use
+## How to Use (this is the goal)
 
 - Download your songlist from Exportify as a csv
 - Run Spotty with the songlist file
