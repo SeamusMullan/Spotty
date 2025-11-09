@@ -20,6 +20,7 @@ dependencies = [
     "black>=25.9.0",
     "pandas>=2.1.0",
     "rich>=13.7.0",
+    "ruff>=0.14.4",
     "typer>=0.9.0",
 ]
 
@@ -28,6 +29,8 @@ dev = [
     "pylint>=4.0.2",
     "pytest>=7.0.0",
     "black>=23.0.0",
+    "ruff>=0.1.0",
+    "pre-commit>=3.0.0",
 ]
 
 [project.scripts]
@@ -41,3 +44,29 @@ Issues = "https://github.com/SeamusMullan/Spotty/issues"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+]
+ignore = []
+fixable = ["ALL"]
+unfixable = []
+
+[tool.black]
+line-length = 88
+target-version = ['py313']
+
+[tool.pylint.messages_control]
+max-line-length = 88
