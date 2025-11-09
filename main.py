@@ -77,6 +77,47 @@ def list(
         raise typer.Exit(1)
 
 
+
+@app.command()
+def download(
+    csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file"),
+    output_dir: Path = typer.Option("./downloads", "--output", "-o", help="Output directory for downloads"),
+):
+    """
+    Download songs from the CSV file (placeholder - not yet implemented).
+    """
+    if not csv_file.exists():
+        console.print(f"[bold red]Error:[/bold red] File '{csv_file}' not found!")
+        raise typer.Exit(1)
+    
+    try:
+        df = pd.read_csv(csv_file)
+        total_songs = len(df)
+        
+        console.print(f"\n[bold yellow]  Download functionality coming soon![/bold yellow]\n")
+        console.print(f"Would download {total_songs} songs to: {output_dir.absolute()}\n")
+        
+        # Demo progress bar
+        console.print("[dim]Demo of future download progress:[/dim]\n")
+        
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console,
+        ) as progress:
+            task = progress.add_task("[cyan]Downloading songs...", total=5)
+            
+            for i in range(5):
+                time.sleep(0.3)
+                progress.update(task, advance=1)
+                
+        console.print("\n[green][/green] Demo complete!\n")
+        
+    except Exception as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        raise typer.Exit(1)
+
+
 @app.command()
 def version():
     """
