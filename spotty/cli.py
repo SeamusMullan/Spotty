@@ -1,6 +1,7 @@
 """
 Spotty CLI - Command-line interface for Spotty.
 """
+
 import time
 from pathlib import Path
 
@@ -18,32 +19,24 @@ from spotty.utils import (
     format_date,
 )
 
-app = typer.Typer(
-    help="Spotty - Download your Spotify music from Exportify CSV files"
-)
+app = typer.Typer(help="Spotty - Download your Spotify music from Exportify CSV files")
 console = Console()
 
 
 @app.command()
 def list_songs(
     csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file"),
-    limit: int = typer.Option(
-        20, "--limit", "-l", help="Number of songs to display"
-    ),
+    limit: int = typer.Option(20, "--limit", "-l", help="Number of songs to display"),
 ):
     """
     Display songs from an Exportify CSV file in a beautiful table.
     """
     if not csv_file.exists():
-        console.print(
-            f"[bold red]Error:[/bold red] File '{csv_file}' not found!"
-        )
+        console.print(f"[bold red]Error:[/bold red] File '{csv_file}' not found!")
         raise typer.Exit(1)
 
     try:
-        console.print(
-            f"\n[bold cyan]Reading:[/bold cyan] {csv_file.name}\n"
-        )
+        console.print(f"\n[bold cyan]Reading:[/bold cyan] {csv_file.name}\n")
         df = read_csv_file(csv_file)
 
         # Show file stats
@@ -51,15 +44,13 @@ def list_songs(
             f"[bold]Total Songs:[/bold] {len(df)}\n"
             f"[bold]Displaying:[/bold] {min(limit, len(df))} songs",
             title="Statistics",
-            border_style="cyan"
+            border_style="cyan",
         )
         console.print(stats_panel)
         console.print()
 
         # Create table
-        table = Table(
-            title=f"Songs from {csv_file.name}", show_lines=False
-        )
+        table = Table(title=f"Songs from {csv_file.name}", show_lines=False)
         table.add_column("#", style="dim", width=4)
         table.add_column("Track", style="cyan", no_wrap=True)
         table.add_column("Artist", style="magenta")
@@ -71,13 +62,13 @@ def list_songs(
         df_display = df.head(limit)
         for idx in range(len(df_display)):
             row = df_display.iloc[idx]
-            
-            duration_str = format_duration(row.get('Duration (ms)'))
-            added_date = format_date(row.get('Added At'))
-            
-            track_name = row.get('Track Name', 'Unknown')
-            artist_name = row.get('Artist Name(s)', 'Unknown')
-            album_name = row.get('Album Name', 'Unknown')
+
+            duration_str = format_duration(row.get("Duration (ms)"))
+            added_date = format_date(row.get("Added At"))
+
+            track_name = row.get("Track Name", "Unknown")
+            artist_name = row.get("Artist Name(s)", "Unknown")
+            album_name = row.get("Album Name", "Unknown")
 
             table.add_row(
                 str(idx + 1),
@@ -85,7 +76,7 @@ def list_songs(
                 str(artist_name)[:30],
                 str(album_name)[:30],
                 duration_str,
-                added_date
+                added_date,
             )
 
         console.print(table)
@@ -97,16 +88,12 @@ def list_songs(
 
 
 @app.command()
-def info(
-    csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file")
-):
+def info(csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file")):
     """
     Show detailed information about the CSV file.
     """
     if not csv_file.exists():
-        console.print(
-            f"[bold red]Error:[/bold red] File '{csv_file}' not found!"
-        )
+        console.print(f"[bold red]Error:[/bold red] File '{csv_file}' not found!")
         raise typer.Exit(1)
 
     try:
@@ -123,9 +110,7 @@ def info(
             f"[bold]Unique Albums:[/bold] {stats['unique_albums']}\n"
         )
 
-        panel = Panel(
-            info_text, title="📊 File Information", border_style="green"
-        )
+        panel = Panel(info_text, title="📊 File Information", border_style="green")
         console.print(panel)
         console.print()
 
@@ -150,17 +135,14 @@ def info(
 def download(
     csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file"),
     output_dir: Path = typer.Option(
-        "./downloads", "--output", "-o",
-        help="Output directory for downloads"
+        "./downloads", "--output", "-o", help="Output directory for downloads"
     ),
 ):
     """
     Download songs from the CSV file (placeholder - not yet implemented).
     """
     if not csv_file.exists():
-        console.print(
-            f"[bold red]Error:[/bold red] File '{csv_file}' not found!"
-        )
+        console.print(f"[bold red]Error:[/bold red] File '{csv_file}' not found!")
         raise typer.Exit(1)
 
     try:
@@ -168,12 +150,10 @@ def download(
         total_songs = len(df)
 
         console.print(
-            "\n[bold yellow]⚠️  Download functionality coming soon!"
-            "[/bold yellow]\n"
+            "\n[bold yellow]⚠️  Download functionality coming soon!" "[/bold yellow]\n"
         )
         console.print(
-            f"Would download {total_songs} songs to: "
-            f"{output_dir.absolute()}\n"
+            f"Would download {total_songs} songs to: " f"{output_dir.absolute()}\n"
         )
 
         # Demo progress bar
