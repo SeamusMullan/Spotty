@@ -115,7 +115,7 @@ def format_date(date_str: Any) -> str:
 
     try:
         return str(date_str)[:10]
-    except Exception:
+    except (TypeError, AttributeError):
         return "N/A"
 
 
