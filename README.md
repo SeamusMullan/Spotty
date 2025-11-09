@@ -93,7 +93,7 @@ print(top_artists)
 
 ## Project Structure
 
-```
+```text
 Spotty/
 ├── spotty/              # Main package directory
 │   ├── __init__.py      # Package initialization and exports
@@ -111,4 +111,3 @@ Just make a PR, I need as much help as I can get!
 ## License
 
 MIT
-
