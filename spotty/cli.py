@@ -4,6 +4,7 @@ Spotty CLI - Command-line interface for Spotty.
 
 import time
 from pathlib import Path
+from typing import Annotated
 
 import typer
 from rich.console import Console
@@ -12,11 +13,11 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 
 from spotty.utils import (
-    read_csv_file,
     calculate_statistics,
-    get_top_artists,
-    format_duration,
     format_date,
+    format_duration,
+    get_top_artists,
+    read_csv_file,
 )
 
 app = typer.Typer(help="Spotty - Download your Spotify music from Exportify CSV files")
@@ -25,8 +26,10 @@ console = Console()
 
 @app.command()
 def list_songs(
-    csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file"),
-    limit: int = typer.Option(20, "--limit", "-l", help="Number of songs to display"),
+    csv_file: Annotated[Path, typer.Argument(help="Path to Exportify CSV file")],
+    limit: Annotated[
+        int, typer.Option("--limit", "-l", help="Number of songs to display")
+    ] = 20,
 ):
     """
     Display songs from an Exportify CSV file in a beautiful table.
@@ -88,7 +91,7 @@ def list_songs(
 
 
 @app.command()
-def info(csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file")):
+def info(csv_file: Annotated[Path, typer.Argument(help="Path to Exportify CSV file")]):
     """
     Show detailed information about the CSV file.
     """
@@ -133,10 +136,10 @@ def info(csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file")
 
 @app.command()
 def download(
-    csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file"),
-    output_dir: Path = typer.Option(
-        "./downloads", "--output", "-o", help="Output directory for downloads"
-    ),
+    csv_file: Annotated[Path, typer.Argument(help="Path to Exportify CSV file")],
+    output_dir: Annotated[
+        Path, typer.Option("--output", "-o", help="Output directory for downloads")
+    ] = Path("./downloads"),
 ):
     """
     Download songs from the CSV file (placeholder - not yet implemented).
@@ -150,10 +153,10 @@ def download(
         total_songs = len(df)
 
         console.print(
-            "\n[bold yellow]⚠️  Download functionality coming soon!" "[/bold yellow]\n"
+            "\n[bold yellow]⚠️  Download functionality coming soon![/bold yellow]\n"
         )
         console.print(
-            f"Would download {total_songs} songs to: " f"{output_dir.absolute()}\n"
+            f"Would download {total_songs} songs to: {output_dir.absolute()}\n"
         )
 
         # Demo progress bar

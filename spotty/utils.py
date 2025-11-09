@@ -3,7 +3,7 @@ Spotty utilities - Helper functions for CSV processing and data manipulation.
 """
 
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 import pandas as pd
 
@@ -28,7 +28,7 @@ def read_csv_file(csv_file: Path) -> pd.DataFrame:
     return pd.read_csv(csv_file)
 
 
-def calculate_statistics(df: pd.DataFrame) -> Dict[str, Any]:
+def calculate_statistics(df: pd.DataFrame) -> dict[str, Any]:
     """
     Calculate statistics from a Spotify CSV DataFrame.
 
