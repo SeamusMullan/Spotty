@@ -180,7 +180,7 @@ def version():
         "[bold cyan]Spotty[/bold cyan] [dim]v0.1.0[/dim]\n"
         "A terminal app for downloading songs from Exportify CSV files.\n"
         "\n"
-        "[dim]Made with  and Python[/dim]"
+        "[dim]Made with <3 and Python[/dim]"
     )
     panel = Panel(version_text, border_style="cyan")
     console.print(panel)
