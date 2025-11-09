@@ -13,6 +13,71 @@ console = Console()
 
 
 @app.command()
+def list(
+    csv_file: Path = typer.Argument(..., help="Path to Exportify CSV file"),
+    limit: int = typer.Option(20, "--limit", "-l", help="Number of songs to display"),
+):
+    """
+    Display songs from an Exportify CSV file in a beautiful table.
+    """
+    if not csv_file.exists():
+        console.print(f"[bold red]Error:[/bold red] File '{csv_file}' not found!")
+        raise typer.Exit(1)
+    
+    try:
+        console.print(f"\n[bold cyan]Reading:[/bold cyan] {csv_file.name}\n")
+        df = pd.read_csv(csv_file)
+        
+        # Show file stats
+        stats_panel = Panel(
+            f"[bold]Total Songs:[/bold] {len(df)}\n"
+            f"[bold]Displaying:[/bold] {min(limit, len(df))} songs",
+            title="Statistics",
+            border_style="cyan"
+        )
+        console.print(stats_panel)
+        console.print()
+        
+        # Create table
+        table = Table(title=f"Songs from {csv_file.name}", show_lines=False)
+        table.add_column("#", style="dim", width=4)
+        table.add_column("Track", style="cyan", no_wrap=True)
+        table.add_column("Artist", style="magenta")
+        table.add_column("Album", style="grneen")
+        table.add_column("Duration", style="yellow", justify="right")
+        table.add_column("Added", style="blue")
+        
+        # Add rows
+        df_display = df.head(limit)
+        for idx in range(len(df_display)):
+            row = df_display.iloc[idx]
+            duration_ms = row['Duration (ms)'] if 'Duration (ms)' in row and pd.notna(row['Duration (ms)']) else 0
+            duration_str = f"{int(duration_ms / 60000)}:{int((duration_ms % 60000) / 1000):02d}"
+            added_at = row['Added At'] if 'Added At' in row and pd.notna(row['Added At']) else None
+            added_date = str(added_at)[:10] if added_at else 'N/A'
+            
+            track_name = row['Track Name'] if 'Track Name' in row and pd.notna(row['Track Name']) else 'Unknown'
+            artist_name = row['Artist Name(s)'] if 'Artist Name(s)' in row and pd.notna(row['Artist Name(s)']) else 'Unknown'
+            album_name = row['Album Name'] if 'Album Name' in row and pd.notna(row['Album Name']) else 'Unknown'
+            
+            table.add_row(
+                str(idx + 1),
+                str(track_name)[:40],
+                str(artist_name)[:30],
+                str(album_name)[:30],
+                duration_str,
+                added_date
+            )
+        
+        console.print(table)
+        console.print()
+        
+    except Exception as e:
+        console.print(f"[bold red]Error reading CSV:[/bold red] {e}")
+        raise typer.Exit(1)
+
+
+@app.command()
 def version():
     """
     Show the version of Spotty.
