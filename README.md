@@ -23,8 +23,11 @@ A terminal application for downloading songs from Exportify.
 git clone https://github.com/SeamusMullan/Spotty.git
 cd Spotty
 
-# Install with development dependencies
-uv pip install -e ".[dev]"
+# Install the package
+make install
+
+# Or install with development dependencies
+make dev-install
 ```
 
 ## How to Use
@@ -107,6 +110,42 @@ Spotty/
 ## Contributing
 
 Just make a PR, I need as much help as I can get!
+
+### Development Workflow
+
+1. **Install development dependencies:**
+
+   ```bash
+   make dev-install
+   ```
+
+2. **Auto-fix code before committing:**
+
+   ```bash
+   make format
+   ```
+
+   This runs Black and Ruff to automatically format and fix common issues.
+
+3. **Check for remaining issues:**
+
+   ```bash
+   make lint
+   ```
+
+4. **Optional: Set up pre-commit hooks** (auto-fixes on every commit):
+
+   ```bash
+   make pre-commit-install
+   ```
+
+5. **See all available commands:**
+
+   ```bash
+   make help
+   ```
+
+See [CODE_QUALITY.md](CODE_QUALITY.md) for detailed information about code quality tools.
 
 ## License
 
